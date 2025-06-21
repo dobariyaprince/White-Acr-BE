@@ -37,8 +37,6 @@ const signUp = async (req, res) => {
       contactNumber,
       email,
       password,
-      deviceToken,
-      webToken,
       commercialReference,
       companyFormationType,
     } = body;
@@ -228,8 +226,6 @@ const signUp = async (req, res) => {
       contactName,
       contactNumber,
       email,
-      deviceToken,
-      webToken,
       password: passwordHash,
       profilePicture: body.profilePicture,
       scac: body.scac,

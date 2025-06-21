@@ -10,8 +10,8 @@ const adminAuth = async (req, res, next) => {
   const { logger, body, query, headers } = req;
   try {
     let token =
-      body.token ||
-      query.token ||
+      body?.token ||
+      query?.token ||
       headers["x-auth-token"] ||
       headers["authorization"];
     if (!token || token.length == 0 || token.toString() === "null") {

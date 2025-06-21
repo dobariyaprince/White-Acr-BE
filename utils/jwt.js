@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { hendleModel } = require("./hendleModel");
 const { encrypt } = require("../helper/encrypt-decrypt");
 
-const tokenGenerate = async (id, role, deviceToken, webToken) => {
+const tokenGenerate = async (id, role) => {
   const Model = await hendleModel(role.toLowerCase());
 
   const isUser = role === "User";
@@ -39,8 +39,6 @@ const tokenGenerate = async (id, role, deviceToken, webToken) => {
         type: "Access",
         createdAt: new Date(),
       },
-      deviceToken,
-      webToken,
     },
     { new: true }
   );
