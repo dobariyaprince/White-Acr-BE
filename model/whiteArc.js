@@ -1,6 +1,4 @@
-const { Schema, model } = require("mongoose");
-
-const homeSchema = new Schema(
+const whiteArcSchema = new Schema(
   {
     banner: String,
     sections: [
@@ -15,12 +13,8 @@ const homeSchema = new Schema(
     projects: [
       {
         title: String,
-        testimonials: [
-          {
-            img: Array,
-            link: String,
-          },
-        ],
+        img: String,
+        link: String,
       },
     ],
     socialSection: [
@@ -34,4 +28,4 @@ const homeSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Home", homeSchema);
+module.exports = model("WhiteArc", whiteArcSchema);

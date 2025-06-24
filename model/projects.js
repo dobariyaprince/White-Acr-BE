@@ -1,4 +1,4 @@
-const aboutUsSchema = new Schema(
+const projectsSchema = new Schema(
   {
     banner: String,
     intro: String,
@@ -9,16 +9,17 @@ const aboutUsSchema = new Schema(
         description: String,
         image: String,
         link: String,
-        subItems: [
-          {
-            title: String,
-            description: String,
-          },
-        ],
+      },
+    ],
+    projects: [
+      {
+        title: String,
+        img: String,
+        link: String,
       },
     ],
   },
   { timestamps: true }
 );
 
-module.exports = model("AboutUs", aboutUsSchema);
+module.exports = model("Projects", projectsSchema);
