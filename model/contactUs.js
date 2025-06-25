@@ -1,20 +1,53 @@
 const contactUsSchema = new Schema(
   {
-    banner: String,
-    description: String,
+    banner: {
+      type: String,
+      default: null,
+    },
+    description: {
+      type: String,
+      default: null,
+    },
     contactDetails: {
-      address: String,
-      phone: String,
-      email: String,
-      mapEmbedUrl: String,
+      address: {
+        type: String,
+        default: null,
+      },
+      phone: {
+        type: String,
+        default: null,
+      },
+      email: {
+        type: String,
+        default: null,
+      },
+      mapEmbedUrl: {
+        type: String,
+        default: null,
+      },
     },
     formFields: [
       {
-        label: String,
-        name: String,
-        placeholder: String,
-        type: { type: String, default: "text" },
-        required: { type: Boolean, default: false },
+        label: {
+          type: String,
+          default: null,
+        },
+        name: {
+          type: String,
+          default: null,
+        },
+        placeholder: {
+          type: String,
+          default: null,
+        },
+        type: {
+          type: String,
+          default: "text",
+        },
+        required: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
   },

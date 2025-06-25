@@ -2,32 +2,68 @@ const { Schema, model } = require("mongoose");
 
 const homeSchema = new Schema(
   {
-    banner: String,
+    banner: {
+      type: String,
+      default: null,
+    },
     sections: [
       {
-        type: String,
-        title: String,
-        description: String,
-        image: String,
-        link: String,
+        type: {
+          type: String,
+          default: null,
+        },
+        title: {
+          type: String,
+          default: null,
+        },
+        description: {
+          type: String,
+          default: null,
+        },
+        image: {
+          type: String,
+          default: null,
+        },
+        link: {
+          type: String,
+          default: null,
+        },
       },
     ],
     projects: [
       {
-        title: String,
+        title: {
+          type: String,
+          default: null,
+        },
         testimonials: [
           {
-            img: Array,
-            link: String,
+            img: {
+              type: Array,
+              default: [],
+            },
+            link: {
+              type: String,
+              default: null,
+            },
           },
         ],
       },
     ],
     socialSection: [
       {
-        heading: String,
-        post: String,
-        link: String,
+        heading: {
+          type: String,
+          default: null,
+        },
+        post: {
+          type: String,
+          default: null,
+        },
+        link: {
+          type: String,
+          default: null,
+        },
       },
     ],
   },
