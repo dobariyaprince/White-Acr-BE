@@ -1,38 +1,16 @@
-const Admin = require("../../../model/admin");
+const Admin = require("../../model/admin");
 const jwt = require("jsonwebtoken");
-const { encrypt, decrypt } = require("../../../helper/encrypt-decrypt");
-const Response = require("../../../helper/response");
-const {
-  STATUS_CODE,
-  ERROR_MSGS,
-  INFO_MSGS,
-} = require("../../../helper/constant");
-const { handleException } = require("../../../helper/exception");
-const LoginValidation = require("../../../helper/joi-validation");
-require("dotenv").config();
+const { handleException } = require("../../helper/exception");
+const Response = require("../../helper/response");
+const { encrypt } = require("../../helper/encrypt-decrypt");
+const { STATUS_CODE, INFO_MSGS, ERROR_MSGS } = require("../../helper/constant");
 
-/**
- * Login
- */
-const logIn = async (req, res) => {
-  const { logger, body } = req;
+const refreshToken = async (req, res) => {
+  const { logger, adminId } = req;
   try {
-    const { email, password } = body;
-
-    const { error } = LoginValidation.adminLogin(body);
-    if (error) {
-      const obj = {
-        res,
-        status: STATUS_CODE.BAD_REQUEST,
-        msg: error.details[0].message,
-      };
-      return Response.error(obj);
-    }
-
-    const adminInfo = await Admin.findOne({ email: email });
-
+    const adminInfo = await Admin.findById({ _id: adminId });
     if (!adminInfo) {
-      const obj = {
+      let obj = {
         res,
         status: STATUS_CODE.BAD_REQUEST,
         msg: ERROR_MSGS.ACCOUNT_NOT_FOUND,
@@ -40,29 +18,15 @@ const logIn = async (req, res) => {
       return Response.error(obj);
     }
 
-    const decryptPassword = decrypt(
-      adminInfo.password,
-      process.env.PASSWORD_ENCRYPTION_KEY
-    );
+    const encryptAdmin = encrypt(adminId, process.env.ADMIN_ENCRYPTION_KEY);
 
-    if (password !== decryptPassword) {
-      const obj = {
-        res,
-        status: STATUS_CODE.BAD_REQUEST,
-        msg: ERROR_MSGS.INVALID_LOGIN,
-      };
-      return Response.error(obj);
-    }
-    const encryptAdmin = encrypt(
-      adminInfo._id,
-      process.env.ADMIN_ENCRYPTION_KEY
-    );
     const accessToken = await commonAuth(
       encryptAdmin,
       process.env.ADMIN_ACCESS_TIME,
       process.env.ADMIN_ACCESS_TOKEN,
       "Access"
     );
+
     const refreshToken = await commonAuth(
       encryptAdmin,
       process.env.REFRESH_TOKEN_TIME,
@@ -71,28 +35,26 @@ const logIn = async (req, res) => {
     );
 
     await Admin.findByIdAndUpdate(
-      adminInfo._id,
+      adminId,
       {
-        lastLogin: new Date(Date.now()),
+        lastLogin: new Date(),
         "token.accessToken": accessToken,
         "token.refreshToken": refreshToken,
         "token.type": "Access",
-        "token.createdAt": new Date(Date.now()),
+        "token.createdAt": new Date(),
       },
       { new: true }
     );
-    const obj = {
+
+    let obj = {
       res,
       msg: INFO_MSGS.SUCCESSFUL_LOGIN,
       status: STATUS_CODE.OK,
-      data: {
-        accessToken,
-        refreshToken,
-      },
+      data: { accessToken, refreshToken },
     };
     return Response.success(obj);
   } catch (error) {
-    console.log("Login Error : ", error);
+    console.log("refreshToken Error", error);
     return handleException(logger, res, error);
   }
 };
@@ -129,5 +91,5 @@ const generateJWTToken = async (payload) => {
 };
 
 module.exports = {
-  logIn,
+  refreshToken,
 };

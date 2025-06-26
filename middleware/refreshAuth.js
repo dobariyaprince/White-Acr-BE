@@ -1,12 +1,10 @@
 const jwt = require("jsonwebtoken");
-const User = require("../model/user");
 const Admin = require("../model/admin");
 const Response = require("../helper/response");
 const { STATUS_CODE, ERROR_MSGS, INFO_MSGS } = require("../helper/constant");
 const { handleException } = require("../helper/exception");
 const { decrypt } = require("../helper/encrypt-decrypt");
 
-//- For User Token Decode
 const refreshAuth = async (req, res, next) => {
   const { logger, body, query, headers } = req;
   try {
@@ -50,20 +48,20 @@ const refreshAuth = async (req, res, next) => {
 
         let Model;
         let id;
-        if (decoded.role === "User") {
-          Model = User;
-          req.userId = decrypt(decoded.userId, process.env.USER_ENCRYPTION_KEY);
-          req.type = decoded.type;
-          id = req.userId;
-        } else if (decoded.role === "Admin") {
-          Model = Admin;
-          req.adminId = decrypt(
-            decoded.adminId,
-            process.env.ADMIN_ENCRYPTION_KEY
-          );
-          req.type = decoded.type;
-          id = req.adminId;
-        }
+        // if (decoded.role === "User") {
+        //   Model = User;
+        //   req.userId = decrypt(decoded.userId, process.env.USER_ENCRYPTION_KEY);
+        //   req.type = decoded.type;
+        //   id = req.userId;
+        // } else if (decoded.role === "Admin") {
+        Model = Admin;
+        req.adminId = decrypt(
+          decoded.adminId,
+          process.env.ADMIN_ENCRYPTION_KEY
+        );
+        req.type = decoded.type;
+        id = req.adminId;
+        // }
         let checkData = await Model.findById(id);
 
         if (!checkData) {

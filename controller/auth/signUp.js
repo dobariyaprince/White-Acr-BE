@@ -1,12 +1,8 @@
-const Admin = require("../../../model/admin");
-const { handleException } = require("../../../helper/exception");
-const { encrypt, decrypt } = require("../../../helper/encrypt-decrypt");
-const Response = require("../../../helper/response");
-const {
-  STATUS_CODE,
-  ERROR_MSGS,
-  INFO_MSGS,
-} = require("../../../helper/constant");
+const Admin = require("../../model/admin");
+const { handleException } = require("../../helper/exception");
+const { encrypt, decrypt } = require("../../helper/encrypt-decrypt");
+const Response = require("../../helper/response");
+const { STATUS_CODE, ERROR_MSGS, INFO_MSGS } = require("../../helper/constant");
 
 /**
  * Register a new admin with email and password

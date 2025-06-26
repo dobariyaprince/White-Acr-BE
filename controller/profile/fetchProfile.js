@@ -1,17 +1,13 @@
-const Admin = require("../../../model/admin");
-const { handleException } = require("../../../helper/exception");
-const Response = require("../../../helper/response");
+const Admin = require("../../model/admin");
+const { handleException } = require("../../helper/exception");
+const Response = require("../../helper/response");
 const { ObjectId } = require("mongoose").Types;
-const {
-  STATUS_CODE,
-  ERROR_MSGS,
-  INFO_MSGS,
-} = require("../../../helper/constant");
+const { STATUS_CODE, ERROR_MSGS, INFO_MSGS } = require("../../helper/constant");
 
 const fetchProfile = async (req, res) => {
   let { logger, adminId } = req;
   try {
-    console.log('adminId :>> ', adminId);
+    console.log("adminId :>> ", adminId);
     let [getData] = await Admin.aggregate([
       {
         $match: {
