@@ -1,3 +1,5 @@
+const { Schema, model } = require("mongoose");
+
 const aboutUsSchema = new Schema(
   {
     banner: { type: String, default: null },

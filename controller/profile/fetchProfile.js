@@ -7,7 +7,6 @@ const { STATUS_CODE, ERROR_MSGS, INFO_MSGS } = require("../../helper/constant");
 const fetchProfile = async (req, res) => {
   let { logger, adminId } = req;
   try {
-    console.log("adminId :>> ", adminId);
     let [getData] = await Admin.aggregate([
       {
         $match: {

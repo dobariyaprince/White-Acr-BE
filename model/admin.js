@@ -42,10 +42,6 @@ const collectionSchema = new Schema(
         default: null,
       },
     },
-    deviceToken: {
-      type: String,
-      default: null,
-    },
   },
   {
     timestamps: true,
