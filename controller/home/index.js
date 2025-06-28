@@ -1,7 +1,7 @@
-const createOrUpdateHome = require("./createOrUpdate");
-const getHome = require("./getDetails");
+const createOrUpdate = require("./createOrUpdate");
+const getDetails = require("./getDetails");
 
 module.exports = {
-  createOrUpdateHome,
-  getHome,
+  createOrUpdate,
+  getDetails,
 };
