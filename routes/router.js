@@ -5,6 +5,9 @@ const profileRoute = require("./profile");
 const homeRoute = require("./home");
 const aboutUsRoute = require("./aboutUs");
 const projectRoute = require("./project");
+const whiteArcRoute = require("./whiteArc");
+const contactUsRoute = require("./contactUs");
+const enquiryRoute = require("./enquiry");
 const { adminAuth } = require("../middleware/adminAuth");
 
 router.get("/", (req, res) => {
@@ -15,6 +18,9 @@ router.use("/auth", authRoute);
 router.use("/home", homeRoute);
 router.use("/aboutUs", aboutUsRoute);
 router.use("/project", projectRoute);
+router.use("/whiteArc", whiteArcRoute);
+router.use("/contactUs", contactUsRoute);
+router.use("/enquiry", enquiryRoute);
 router.use(adminAuth);
 router.use("/profile", profileRoute);
 
