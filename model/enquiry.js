@@ -18,6 +18,18 @@ const enquirySchema = new Schema(
       type: String,
       default: null,
     },
+    siteLocation: {
+      type: String,
+      default: null,
+    },
+    projectType: {
+      type: String,
+      default: null,
+    },
+    description: {
+      type: String,
+      default: null,
+    },
     subject: {
       type: String,
       default: null,

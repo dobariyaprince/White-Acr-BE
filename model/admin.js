@@ -10,6 +10,10 @@ const collectionSchema = new Schema(
       type: String,
       default: null,
     },
+    uName: {
+      type: String,
+      default: null,
+    },
     email: {
       type: String,
       lowercase: true,
@@ -17,6 +21,11 @@ const collectionSchema = new Schema(
       unique: true,
     },
     password: {
+      type: String,
+      default: null,
+      unique: true,
+    },
+    conformPassword: {
       type: String,
       default: null,
       unique: true,

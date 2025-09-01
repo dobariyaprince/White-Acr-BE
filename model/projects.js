@@ -24,6 +24,10 @@ const projectsSchema = new Schema(
           type: String,
           default: null,
         },
+        completionDate: {
+          type: String,
+          default: null,
+        },
         image: {
           type: String,
           default: null,

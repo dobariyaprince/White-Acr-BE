@@ -71,6 +71,7 @@ module.exports = {
       "This email is already registered. Please use a different one.",
     ACCESS_TOKEN_REQUIRED:
       "A valid access token is required; a refresh token was provided instead.",
+      BOTH_PASSWRDO_NOT_MATCHED:"Password and confirm password must be the same."
   },
 
   INFO_MSGS: {

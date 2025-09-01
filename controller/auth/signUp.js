@@ -10,7 +10,17 @@ const { STATUS_CODE, ERROR_MSGS, INFO_MSGS } = require("../../helper/constant");
 const signUp = async (req, res) => {
   const { logger, body } = req;
   try {
-    const { email, password } = body;
+    const { email, password, conformPassword } = body;
+
+    if (password !== conformPassword) {
+      const obj = {
+        res,
+        status: STATUS_CODE.BAD_REQUEST,
+        msg: ERROR_MSGS.BOTH_PASSWRDO_NOT_MATCHED,
+      };
+      return Response.error(obj);
+    }
+
     const adminEmailExist = await Admin.findOne({
       email: email,
     });
