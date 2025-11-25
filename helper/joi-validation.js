@@ -147,25 +147,17 @@ const commercialReferenceSchema = Joi.object({
   }),
 }).optional();
 
+const uNameSchema = Joi.string().max(150).required().messages({
+  "string.base": `User name must be a string`,
+  "string.max": `User name cannot exceed {#limit} characters`,
+  "any.required": `User name is required`,
+});
+
 const signUpSchema = Joi.object().keys({
-  companyName: companyNameSchema,
-  contactName: contactNameSchema,
-  contactNumber: contactNumberSchema,
+  uName: uNameSchema,
   email: emailSchema,
   password: passwordSchema,
-  commercialReference: Joi.array()
-    .items(commercialReferenceSchema)
-    .optional()
-    .messages({
-      "array.base": "Commercial reference must be an array",
-    }),
-  companyFormationType: Joi.string()
-    .valid("USA", "MEXICO")
-    .allow(null, "")
-    .optional()
-    .messages({
-      "any.only": `Company formation type must be either "USA" or "MEXICO"`,
-    }),
+  confirmPass: passwordSchema,
 });
 
 const emailVerify = Joi.object().keys({
@@ -192,8 +184,60 @@ const GoogleSchema = Joi.object().keys({
 
 // Function
 
+const projectSchema = Joi.object().keys({
+  title: Joi.string().required().messages({
+    "any.required": "Project title is required",
+    "string.empty": "Project title is required",
+  }),
+  description: Joi.string().required().messages({
+    "any.required": "Project description is required",
+    "string.empty": "Project description is required",
+  }),
+  type: Joi.string().required().messages({
+    "any.required": "Project type is required",
+    "string.empty": "Project type is required",
+  }),
+  completionDate: Joi.number().required().messages({
+    "any.required": "Completion date is required",
+    "number.base": "Completion date must be a number",
+  }),
+  images: Joi.array().items(Joi.string()).optional(),
+});
+
+const enquirySchema = Joi.object().keys({
+  name: Joi.string().required().messages({
+    "any.required": "Name is required",
+    "string.empty": "Name is required",
+  }),
+  email: emailSchema,
+  phone: Joi.string().required().messages({
+    "any.required": "Phone number is required",
+    "string.empty": "Phone number is required",
+  }),
+  siteLocation: Joi.string().required().messages({
+    "any.required": "Site location is required",
+    "string.empty": "Site location is required",
+  }),
+  projectType: Joi.string().required().messages({
+    "any.required": "Project type is required",
+    "string.empty": "Project type is required",
+  }),
+  description: Joi.string().required().messages({
+    "any.required": "Description is required",
+    "string.empty": "Description is required",
+  }),
+});
+
 const signUpSchemaValidate = (data) => {
   return signUpSchema.validate({ ...data }, options);
+};
+
+const projectValidate = (data) => {
+  return projectSchema.validate({ ...data }, options);
+};
+
+const enquiryValidate = (data) => {
+  return enquirySchema.validate({ ...data }, options);
 };
 
 const emailAndPasswordVerification = (data) => {
@@ -234,4 +278,6 @@ module.exports = {
   mobileVerification,
   adminLogin,
   signUpSchemaValidate,
+  projectValidate,
+  enquiryValidate,
 };

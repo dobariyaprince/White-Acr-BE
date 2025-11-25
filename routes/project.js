@@ -6,6 +6,7 @@ const getProjects = require("../controller/project/getDetails");
 const { adminAuth } = require("../middleware/adminAuth");
 
 router.get("/", getProjects);
+router.get("/:projectId", getProjects);
 router.use(adminAuth);
 router.post("/", upload.any(), createOrUpdateProjects);
 

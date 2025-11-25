@@ -14,10 +14,6 @@ const enquirySchema = new Schema(
       type: String,
       default: null,
     },
-    address: {
-      type: String,
-      default: null,
-    },
     siteLocation: {
       type: String,
       default: null,
@@ -27,14 +23,6 @@ const enquirySchema = new Schema(
       default: null,
     },
     description: {
-      type: String,
-      default: null,
-    },
-    subject: {
-      type: String,
-      default: null,
-    },
-    message: {
       type: String,
       default: null,
     },

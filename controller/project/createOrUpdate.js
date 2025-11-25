@@ -2,48 +2,55 @@ const Projects = require("../../model/projects");
 const { handleException } = require("../../helper/exception");
 const Response = require("../../helper/response");
 const { STATUS_CODE, INFO_MSGS } = require("../../helper/constant");
+const { Types } = require("mongoose");
+const { projectValidate } = require("../../helper/joi-validation");
 
 module.exports = async (req, res) => {
   const { logger } = req;
   try {
+    const { error } = projectValidate(req.body);
+    if (error) {
+      const obj = {
+        res,
+        status: STATUS_CODE.BAD_REQUEST,
+        msg: error.details[0].message,
+      };
+      return Response.error(obj);
+    }
+
     const { body, files = [] } = req;
 
-    const getFilePath = (fieldname) => {
-      const file = files.find((f) => f.fieldname === fieldname);
-      return file ? `/uploads/${file.filename}` : null;
-    };
+    const uploadedImages = files
+      .filter((f) => f.fieldname === "images")
+      .map((f) => f.location); // S3 returns location property with the URL
 
-    const parseJSON = (val) => {
+    const coerceArray = (val) => {
+      if (!val) return [];
+      if (Array.isArray(val)) return val;
       try {
-        return typeof val === "string" ? JSON.parse(val) : val || [];
+        const parsed = typeof val === "string" ? JSON.parse(val) : val;
+        return Array.isArray(parsed) ? parsed : parsed ? [parsed] : [];
       } catch {
-        return [];
+        return [val];
       }
     };
 
-    const banner = getFilePath("banner");
-    const intro = body.intro || null;
-    const sections = parseJSON(body.sections);
-    const projects = parseJSON(body.projects);
+    const existingImagePaths = coerceArray(body.images);
 
-    if (Array.isArray(sections)) {
-      sections.forEach((sec, i) => {
-        sec.image = getFilePath(`sections[${i}][image]`);
-      });
+    const payload = {
+      title: body.title,
+      description: body.description,
+      type: body.type,
+      completionDate: parseInt(body.completionDate),
+      images: [...existingImagePaths, ...uploadedImages].filter(Boolean),
+    };
+
+    let result;
+    if (body.id && Types.ObjectId.isValid(body.id)) {
+      result = await Projects.findByIdAndUpdate(body.id, payload, { new: true });
+    } else {
+      result = await Projects.create(payload);
     }
-
-    if (Array.isArray(projects)) {
-      projects.forEach((p, i) => {
-        p.img = getFilePath(`projects[${i}][img]`);
-      });
-    }
-
-    const payload = { banner, intro, sections, projects };
-
-    const existing = await Projects.findOne();
-    const result = existing
-      ? await Projects.findByIdAndUpdate(existing._id, payload, { new: true })
-      : await Projects.create(payload);
 
     return Response.success({
       req,

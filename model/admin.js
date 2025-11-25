@@ -2,38 +2,24 @@ const { Schema, model, Types } = require("mongoose");
 
 const collectionSchema = new Schema(
   {
-    profile: {
-      type: String,
-      default: null,
-    },
-    contactName: {
-      type: String,
-      default: null,
-    },
     uName: {
       type: String,
-      default: null,
+      required: true,
     },
     email: {
       type: String,
       lowercase: true,
-      default: null,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      default: null,
-      unique: true,
-    },
-    conformPassword: {
-      type: String,
-      default: null,
-      unique: true,
+      required: true,
     },
     token: {
       type: {
         type: String,
-        enum: ["Access", "Denied"],
+        enum: ["Access", "Refresh", "Denied"],
       },
       accessToken: {
         type: String,
@@ -44,6 +30,10 @@ const collectionSchema = new Schema(
       createdAt: {
         type: Date,
       },
+    },
+    lastLogin: {
+      type: Date,
+      default: null,
     },
     forgotPassword: {
       createdAt: {
