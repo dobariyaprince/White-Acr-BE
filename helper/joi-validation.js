@@ -197,6 +197,10 @@ const projectSchema = Joi.object().keys({
     "any.required": "Project type is required",
     "string.empty": "Project type is required",
   }),
+  location: Joi.string().required().messages({
+    "any.required": "Project location is required",
+    "string.empty": "Project location is required",
+  }),
   completionDate: Joi.number().required().messages({
     "any.required": "Completion date is required",
     "number.base": "Completion date must be a number",

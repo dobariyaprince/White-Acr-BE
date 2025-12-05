@@ -14,6 +14,10 @@ const projectsSchema = new Schema(
       type: String,
       default: null,
     },
+    location: {
+      type: String,
+      default: null,
+    },
     completionDate: {
       type: Number,
       default: null,
